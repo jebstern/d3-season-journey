@@ -1,160 +1,39 @@
+import 'package:diablo_season_6p/blocs/application_bloc.dart';
+import 'package:diablo_season_6p/blocs/bloc_provider.dart';
+import 'package:diablo_season_6p/blocs/tier_bloc.dart';
+import 'package:diablo_season_6p/pages/home.dart';
+import 'package:diablo_season_6p/constants.dart';
 import 'package:diablo_season_6p/widgets/ChapterWidget.dart';
-import 'package:diablo_season_6p/db/DBProvider.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyHomePage());
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage();
-
-  @override
-  MyHomePageWidget createState() => MyHomePageWidget();
+Future<void> main() async {
+  return runApp(BlocProvider<ApplicationBloc>(
+    bloc: ApplicationBloc(),
+    child: BlocProvider<TierBloc>(
+      bloc: TierBloc(),
+      child: MyApp(),
+    ),
+  ));
 }
 
-class MyHomePageWidget extends State<MyHomePage> {
-  final String title;
-  DBProvider db = DBProvider();
-  int checkedTotal = 0;
-
-  MyHomePageWidget({Key key, this.title});
-
-  void initState() {
-    super.initState();
-    initDB();
-  }
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Diablo3 seasonal 6P',
       theme: ThemeData(fontFamily: 'Montserrat'),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Diablo3 seasonal 6P'),
-        ),
-        body: Container(child: Text('Chapter 1')),
-        drawer: Drawer(
-          child: Builder(
-            builder: (context) => ListView(
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  physics: ScrollPhysics(parent: PageScrollPhysics()),
-                  children: _getDrawerItems(context),
-                ),
-          ),
-        ),
-      ),
+      home: HomePage(),
       routes: {
-        '/chapter1': (context) => ChapterWidget(tier: 'Chapter I'),
-        '/chapter2': (context) => ChapterWidget(tier: 'Chapter II'),
-        '/chapter3': (context) => ChapterWidget(tier: 'Chapter III'),
-        '/chapter4': (context) => ChapterWidget(tier: 'Chapter IV'),
-        '/slayer': (context) => ChapterWidget(tier: 'Slayer'),
-        '/champion': (context) => ChapterWidget(tier: 'Champion'),
-        '/destroyer': (context) => ChapterWidget(tier: 'Destroyer'),
-        '/conqueror': (context) => ChapterWidget(tier: 'Conqueror'),
-        '/guardian': (context) => ChapterWidget(tier: 'Guardian'),
+        routes[0].item1: (context) => ChapterWidget(tier: routes[0].item2),
+        routes[1].item1: (context) => ChapterWidget(tier: routes[1].item2),
+        routes[2].item1: (context) => ChapterWidget(tier: routes[2].item2),
+        routes[3].item1: (context) => ChapterWidget(tier: routes[3].item2),
+        routes[4].item1: (context) => ChapterWidget(tier: routes[4].item2),
+        routes[5].item1: (context) => ChapterWidget(tier: routes[5].item2),
+        routes[6].item1: (context) => ChapterWidget(tier: routes[6].item2),
+        routes[7].item1: (context) => ChapterWidget(tier: routes[7].item2),
+        routes[8].item1: (context) => ChapterWidget(tier: routes[8].item2),
       },
     );
   }
-
-  List<Widget> _getDrawerItems(BuildContext context) {
-    return <Widget>[
-      DrawerHeader(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              'D3 Season Journey tracker',
-              style: TextStyle(
-                fontSize: 22,
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                updateChecked();
-              },
-              child: Text(
-                'Total completion: $checkedTotal/85',
-                style: TextStyle(
-                  fontSize: 17,
-                ),
-              ),
-            ),
-          ],
-        ),
-        decoration: BoxDecoration(
-          color: Colors.blue,
-        ),
-      ),
-      ListTile(
-        title: Text('Chapter 1'),
-        onTap: () {
-          Navigator.pushNamed(context, '/chapter1');
-        },
-      ),
-      ListTile(
-        title: Text('Chapter 2'),
-        onTap: () {
-          Navigator.pushNamed(context, '/chapter2');
-        },
-      ),
-      ListTile(
-        title: Text('Chapter 3'),
-        onTap: () {
-          Navigator.pushNamed(context, '/chapter3');
-        },
-      ),
-      ListTile(
-        title: Text('Chapter 4'),
-        onTap: () {
-          Navigator.pushNamed(context, '/chapter4');
-        },
-      ),
-      ListTile(
-        title: Text('Slayer'),
-        onTap: () {
-          Navigator.pushNamed(context, '/slayer');
-        },
-      ),
-      ListTile(
-        title: Text('Champion'),
-        onTap: () {
-          Navigator.pushNamed(context, '/champion');
-        },
-      ),
-      ListTile(
-        title: Text('Destroyer'),
-        onTap: () {
-          Navigator.pushNamed(context, '/destroyer');
-        },
-      ),
-      ListTile(
-        title: Text('Conqueror'),
-        onTap: () {
-          Navigator.pushNamed(context, '/conqueror');
-        },
-      ),
-      ListTile(
-        title: Text('Guardian'),
-        onTap: () {
-          Navigator.pushNamed(context, '/guardian');
-        },
-      ),
-    ];
-  }
-
-  Future initDB() async {
-    await db.initialize();
-  }
-
-  void updateChecked() async {
-    int checked = await db.getAllChecked();
-    setState(() {
-      checkedTotal = checked;
-    });
-  }
-
-  void switchChanged(bool value) {}
 }

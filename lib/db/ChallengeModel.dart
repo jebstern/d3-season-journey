@@ -1,19 +1,19 @@
 class Challenge {
-    int id;
-    String title;
-    String tier;
-    bool isCompleted;
+  int id;
+  String title;
+  String tier;
+  bool isCompleted;
 
-    Challenge({
-        this.title,
-        this.tier,
-        this.isCompleted,
-    });
+  Challenge({
+    this.title,
+    this.tier,
+    this.isCompleted,
+  });
 
-    Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
-        'title': title,
-        'tier': tier,
+      'title': title,
+      'tier': tier,
     };
     return map;
   }

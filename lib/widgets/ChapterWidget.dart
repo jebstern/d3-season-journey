@@ -1,5 +1,6 @@
+import 'package:diablo_season_6p/blocs/bloc_provider.dart';
+import 'package:diablo_season_6p/blocs/tier_bloc.dart';
 import 'package:diablo_season_6p/db/ChallengeModel.dart';
-import 'package:diablo_season_6p/db/TierModel.dart';
 import 'package:diablo_season_6p/widgets/ChallengeWidget.dart';
 import 'package:diablo_season_6p/db/DBProvider.dart';
 import 'package:flutter/material.dart';
@@ -16,26 +17,32 @@ class ChapterWidget extends StatefulWidget {
 class ChapterWidgetState extends State<ChapterWidget> {
   final String tier;
   String challengesAmount = '';
-  int checkedAmount = 0;
   List<ChallengeWidget> challengesList = List();
   String reward = '';
-  DBProvider db = DBProvider();
+  var db = DBProvider.singleton;
 
   ChapterWidgetState(this.tier);
 
   void initState() {
     super.initState();
     getChallenges();
-    getTierChecked();
   }
 
   @override
   Widget build(BuildContext context) {
+    final TierBloc bloc = BlocProvider.of<TierBloc>(context);
+    bloc.checkTierChallenges.add(tier);
+
     return DefaultTabController(
-      length: 4,
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(this.tier + ': $checkedAmount/$challengesAmount'),
+          title: StreamBuilder<int>(
+            stream: bloc.getTierChecked,
+            initialData: 0,
+            builder: (BuildContext context, AsyncSnapshot<int> snapshot) =>
+                Text(this.tier + ': ${snapshot.data}/$challengesAmount'),
+          ),
         ),
         body: TabBarView(
           children: [
@@ -103,10 +110,7 @@ class ChapterWidgetState extends State<ChapterWidget> {
     for (var x = 0; x < list.length; x++) {
       Challenge challenge = Challenge.fromMap(list[x]);
       challengesList.add(ChallengeWidget(
-        title: challenge.title,
-        isCompleted: challenge.isCompleted,
-        onChallengeClicked: getTierChecked,
-      ));
+          title: challenge.title, isCompleted: challenge.isCompleted));
     }
 
     String tierReward = await db.getTierRewards(tier);
@@ -114,13 +118,6 @@ class ChapterWidgetState extends State<ChapterWidget> {
     setState(() {
       challengesAmount = challengesList.length.toString();
       reward = tierReward;
-    });
-  }
-
-  getTierChecked() async {
-    int amount = await db.getTierChecked(tier);
-    setState(() {
-      checkedAmount = amount;
     });
   }
 }

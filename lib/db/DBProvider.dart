@@ -27,6 +27,10 @@ final String createTiersSql = "CREATE TABLE $tableTiers ("
 
 
 class DBProvider {
+
+  DBProvider._constr();
+  static final DBProvider _db = new DBProvider._constr();
+  static DBProvider get singleton { return _db;}   
   Database db;
 
   Future open(String path) async {
@@ -38,12 +42,10 @@ class DBProvider {
   }
 
   void insert(Challenge challenge) async {
-    await checkDB();
     await db.insert(tableChallenges, challenge.toMap());
   }
 
   Future<Challenge> getChallenge(int id) async {
-    await checkDB();
     List<Map> maps = await db.query(tableChallenges,
         columns: [columnId, columnTitle, columnTier, columnIsCompleted],
         where: '$columnId = ?',
@@ -56,7 +58,6 @@ class DBProvider {
   }
 
   Future<List<Map>> getChallengesFromTier(String tier) async {
-    await checkDB();
     List<Map> maps = await db.query(tableChallenges,
         columns: [columnId, columnTitle, columnTier, columnIsCompleted],
         where: '$columnTier = ?',
@@ -64,8 +65,7 @@ class DBProvider {
     return maps;
   }
 
-  Future getTierChecked(String tier) async {
-    await checkDB();
+  Future<int> getTierChecked(String tier) async {
     List<Map> maps = await db.query(tableChallenges,
         columns: [columnId, columnTitle, columnTier, columnIsCompleted],
         where: '$columnIsCompleted = ? AND $columnTier = ?',
@@ -73,15 +73,30 @@ class DBProvider {
     return maps.length;
   }
 
+  Future<int> getTierCheckedWithTitle(String title) async {
+    List<Map<String, dynamic>> result = await db.rawQuery('SELECT $columnTier FROM $tableChallenges WHERE $columnTitle = "$title"');
+    if (result.length == 0) {
+      return 0;
+    }
+    Map<String, dynamic> row = result.first;
+    String tier = row[columnTier];
+    List<Map<String, dynamic>> result2 = await db.rawQuery('SELECT COUNT(*) as checked FROM $tableChallenges WHERE $columnTier = "$tier" AND $columnIsCompleted=1');
+    if (result2.length == 0) {
+      return 0;
+    }
+    Map<String, dynamic> row2 = result2.first;
+    return row2['checked'];
+  }
+
   Future<int> getAllChecked() async {
-    await checkDB();
+    // await checkDB();
     List<Map<String, dynamic>> result = await db.rawQuery('SELECT COUNT(*) as checked FROM $tableChallenges WHERE $columnIsCompleted=1');
     Map<String, dynamic> row = result.first;
     return row['checked'];
   }
 
   Future<String> getTierRewards(String tier) async {
-    await checkDB();
+    // await checkDB();
     List<Map> rows = await db.query(tableTiers,
         columns: [columnId, columnTitle, columnReward],
         where: '$columnTitle = ?',
@@ -99,7 +114,7 @@ class DBProvider {
   }
 
   Future<int> update(String title, int isCompleted) async {
-    await checkDB();
+    // await checkDB();
     return await db.rawUpdate(
         'UPDATE $tableChallenges SET $columnIsCompleted = ? WHERE $columnTitle = ?',
         [isCompleted, title]);
@@ -116,7 +131,7 @@ class DBProvider {
   Future close() async => db.close();
 
   Future<int> isDbEmpty() async {
-    await checkDB();
+    // await checkDB();
     List<Map> maps = await db.query(tableChallenges);
     print('maps length: ${maps.length}');
     return maps.length;

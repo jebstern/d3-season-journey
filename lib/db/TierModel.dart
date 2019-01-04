@@ -1,17 +1,17 @@
 class Tier {
-    int id;
-    String title;
-    String reward;
+  int id;
+  String title;
+  String reward;
 
-    Tier({
-        this.title,
-        this.reward,
-    });
+  Tier({
+    this.title,
+    this.reward,
+  });
 
-    Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
-        'title': title,
-        'reward': reward,
+      'title': title,
+      'reward': reward,
     };
     return map;
   }

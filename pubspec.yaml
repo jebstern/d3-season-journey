@@ -1,0 +1,41 @@
+name: diablo_season_6p
+description: A new Flutter project.
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# Read more about versioning at semver.org.
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.0.0-dev.68.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^0.1.2
+  sqflite: ^0.13.0+1
+  path_provider: ^0.4.1
+  path: ^1.6.2
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
+  fonts:
+      - family: Montserrat
+        fonts:
+          - asset: fonts/Montserrat-Light.ttf
+          - asset: fonts/Montserrat-LightItalic.ttf
+            style: italic
+          - asset: fonts/Montserrat-Bold.ttf
+            weight: 700

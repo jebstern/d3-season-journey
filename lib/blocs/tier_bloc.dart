@@ -14,6 +14,8 @@ class TierBloc implements BlocBase {
 
   final BehaviorSubject<int> _tierCheckedChallengesSubject = BehaviorSubject<int>();
   Stream<int> get getTierChecked => _tierCheckedChallengesSubject.stream;
+  final BehaviorSubject<int> _allCheckedChallengesSubject = BehaviorSubject<int>();
+  Stream<int> get getAllChecked => _allCheckedChallengesSubject.stream;
 
   TierBloc() {
     _onChallengeClickedController.stream.listen(_handleLogic);
@@ -23,6 +25,8 @@ class TierBloc implements BlocBase {
   Future _handleLogic(title) async {
     int checked = await db.getTierCheckedWithTitle(title);
     _tierCheckedChallengesSubject.add(checked);
+    int allChecked = await db.getAllChecked();
+    _allCheckedChallengesSubject.add(allChecked);
   }
 
   Future _handleChapterLogic(tier) async {
@@ -34,5 +38,6 @@ class TierBloc implements BlocBase {
     _onChallengeClickedController.close();
     _onTierPageOpenedController.close();
     _tierCheckedChallengesSubject.close();
+    _allCheckedChallengesSubject.close();
   }
 }

@@ -15,7 +15,6 @@ class HomePage extends StatefulWidget {
 class HomePageWidget extends State<HomePage> {
   final String title;
   var db = DBProvider.singleton;
-  int checkedTotal = 0;
 
   HomePageWidget({Key key, this.title});
 
@@ -59,16 +58,16 @@ class HomePageWidget extends State<HomePage> {
               fontSize: 22,
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              updateChecked();
-            },
-            child: Text(
-              'Total completion: $checkedTotal/85',
-              style: TextStyle(
-                fontSize: 17,
-              ),
-            ),
+          StreamBuilder<int>(
+            stream: bloc.getAllChecked,
+            initialData: 0,
+            builder: (BuildContext context, AsyncSnapshot<int> snapshot) =>
+                Text(
+                  'Total completion: ${snapshot.data}/85',
+                  style: TextStyle(
+                    fontSize: 17,
+                  ),
+                ),
           ),
         ],
       ),
@@ -93,10 +92,4 @@ class HomePageWidget extends State<HomePage> {
     await db.initialize();
   }
 
-  void updateChecked() async {
-    int checked = await db.getAllChecked();
-    setState(() {
-      checkedTotal = checked;
-    });
-  }
 }

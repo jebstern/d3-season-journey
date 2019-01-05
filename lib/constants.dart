@@ -11,3 +11,5 @@ List<Tuple2<String, String>> routes = [
   Tuple2<String, String>('/conqueror', 'Conqueror'),
   Tuple2<String, String>('/guardian', 'Guardian'),
 ];
+
+int maxChallengesAmount = 85;

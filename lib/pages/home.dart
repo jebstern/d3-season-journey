@@ -1,36 +1,29 @@
 import 'package:diablo_season_6p/blocs/bloc_provider.dart';
 import 'package:diablo_season_6p/blocs/tier_bloc.dart';
-import 'package:diablo_season_6p/db/DBProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:diablo_season_6p/constants.dart';
 
-class HomePage extends StatefulWidget {
-  HomePage();
-
-  @override
-  HomePageWidget createState() => HomePageWidget();
-}
-
-class HomePageWidget extends State<HomePage> {
-  final String title;
-  var db = DBProvider.singleton;
-
-  HomePageWidget({Key key, this.title});
-
-  void initState() {
-    super.initState();
-    initDB();
-  }
-
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TierBloc bloc = BlocProvider.of<TierBloc>(context);
+    bloc.checkChallenge.add('');
     return Scaffold(
       appBar: AppBar(
-        title: Text('Diablo3 seasonal 6P'),
+        title: Text('Season Journey Tracker'),
       ),
-      body: Container(child: Text('Chapter 1')),
+      body: Container(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            'Select a tier from the navigation drawer, and start clicking to save progress.',
+            style: TextStyle(
+              fontSize: 20,
+            ),
+          ),
+        ),
+      ),
       drawer: Drawer(
         child: Builder(
           builder: (context) => ListView(
@@ -50,25 +43,27 @@ class HomePageWidget extends State<HomePage> {
     items.add(DrawerHeader(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           Text(
-            'D3 Season Journey tracker',
+            'Total completion',
             style: TextStyle(
               fontSize: 22,
             ),
           ),
           StreamBuilder<int>(
-            stream: bloc.getAllChecked,
-            initialData: 0,
-            builder: (BuildContext context, AsyncSnapshot<int> snapshot) =>
-                Text(
-                  'Total completion: ${snapshot.data}/85',
+              stream: bloc.getAllChecked,
+              initialData: 0,
+              builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+                double percentage = (snapshot.data / maxChallengesAmount) * 100;
+                String percent = percentage.toStringAsFixed(1);
+                return Text(
+                  '${snapshot.data} / $maxChallengesAmount done ($percent%)',
                   style: TextStyle(
-                    fontSize: 17,
+                    fontSize: 16,
                   ),
-                ),
-          ),
+                );
+              }),
         ],
       ),
       decoration: BoxDecoration(
@@ -87,9 +82,4 @@ class HomePageWidget extends State<HomePage> {
 
     return items;
   }
-
-  Future initDB() async {
-    await db.initialize();
-  }
-
 }

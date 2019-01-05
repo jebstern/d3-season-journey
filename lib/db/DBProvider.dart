@@ -74,6 +74,7 @@ class DBProvider {
   }
 
   Future<int> getTierCheckedWithTitle(String title) async {
+    await checkDB();
     List<Map<String, dynamic>> result = await db.rawQuery('SELECT $columnTier FROM $tableChallenges WHERE $columnTitle = "$title"');
     if (result.length == 0) {
       return 0;
@@ -131,9 +132,7 @@ class DBProvider {
   Future close() async => db.close();
 
   Future<int> isDbEmpty() async {
-    // await checkDB();
     List<Map> maps = await db.query(tableChallenges);
-    print('maps length: ${maps.length}');
     return maps.length;
   }
 
@@ -272,6 +271,5 @@ class DBProvider {
       await insertChallenges();
       await insertTiers();
     }
-    await isDbEmpty();
   }
 }

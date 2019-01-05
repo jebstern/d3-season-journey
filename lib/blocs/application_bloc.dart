@@ -1,8 +1,10 @@
 //import 'dart:async';
 //import 'package:collection/collection.dart';
 import 'package:diablo_season_6p/blocs/bloc_provider.dart';
+import 'package:diablo_season_6p/db/DBProvider.dart';
 
 class ApplicationBloc implements BlocBase {
+    DBProvider db = DBProvider.singleton;
   /*
   StreamController<List<MovieGenre>> _syncController = StreamController<List<MovieGenre>>.broadcast();
   Stream<List<MovieGenre>> get outMovieGenres => _syncController.stream;
@@ -12,6 +14,8 @@ class ApplicationBloc implements BlocBase {
   */
 
   ApplicationBloc() {
+    print('ApplicationBloc - constructor');
+    db.initialize();
     // Read all genres from Internet
     /*
     api.movieGenres().then((list) {

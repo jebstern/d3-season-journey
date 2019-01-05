@@ -38,3 +38,6 @@ flutter:
             style: italic
           - asset: fonts/Montserrat-Bold.ttf
             weight: 700
+      - family: Exocet
+        fonts:
+          - asset: fonts/exocet.ttf

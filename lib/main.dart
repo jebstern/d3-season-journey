@@ -20,8 +20,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Diablo3 seasonal 6P',
-      theme: ThemeData(fontFamily: 'Montserrat'),
+      title: 'D3 Season journey tracker',
+      theme: ThemeData(fontFamily: 'Exocet'),
       home: HomePage(),
       routes: {
         routes[0].item1: (context) => ChapterWidget(tier: routes[0].item2),

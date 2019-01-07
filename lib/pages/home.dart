@@ -15,12 +15,26 @@ class HomePage extends StatelessWidget {
       ),
       body: Container(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
-            'Select a tier from the navigation drawer, and start clicking to save progress.',
-            style: TextStyle(
-              fontSize: 20,
-            ),
+          padding: const EdgeInsets.all(22.0),
+          child: ListView(
+            children: <Widget>[
+              Text(
+                homeTitle,
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(
+                height: 22,
+              ),
+              Text(
+                homeMessage,
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+            ],
           ),
         ),
       ),

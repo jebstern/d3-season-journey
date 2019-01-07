@@ -13,3 +13,6 @@ List<Tuple2<String, String>> routes = [
 ];
 
 int maxChallengesAmount = 85;
+
+String homeTitle = 'Season 16: The Season of Grandeur';
+String homeMessage = 'For the duration of Season 16, all Seasonal players will benefit from the legendary power of the Ring of Royal Grandeur. This buff does not stack with additional Rings of Royal Grandeur!';

@@ -59,11 +59,20 @@ class HomePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          Text(
-            'Total completion',
-            style: TextStyle(
-              fontSize: 22,
-            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'Total completion',
+                style: TextStyle(
+                  fontSize: 22,
+                ),
+              ),
+              Text(
+                'Season 16',
+                style: TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
+              ),
+            ],
           ),
           StreamBuilder<int>(
               stream: bloc.getAllChecked,

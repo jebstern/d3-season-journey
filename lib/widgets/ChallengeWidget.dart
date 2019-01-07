@@ -58,7 +58,7 @@ class ChallengeWidgetState extends State<ChallengeWidget> {
                       challengeCompleted ? 'Completed' : 'Not completed',
                       style: TextStyle(
                         fontStyle: FontStyle.italic,
-                        fontSize: 18,
+                        fontSize: 16,
                         color: challengeCompleted ? Colors.green : Colors.red,
                       ),
                     ),

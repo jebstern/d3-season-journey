@@ -65,7 +65,6 @@ class ChapterWidgetState extends State<ChapterWidget> {
               ),
             ),
             new Container(
-              color: Colors.grey[200],
               child: Padding(
                 padding: const EdgeInsets.all(18.0),
                 child: Text(

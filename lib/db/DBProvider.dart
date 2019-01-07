@@ -252,13 +252,13 @@ class DBProvider {
 
     // Chapters
     batch.insert(tableTiers, Tier(title: 'Chapter I', reward: 'No reward').toMap());
-    batch.insert(tableTiers, Tier(title: 'Chapter II', reward: '1st Haedrig - head+hands. Transmog (lvl 70)').toMap());
-    batch.insert(tableTiers, Tier(title: 'Chapter III', reward: '2nd Haedrig - feet+shoulders/Wizard: belt+neck)').toMap());
+    batch.insert(tableTiers, Tier(title: 'Chapter II', reward: '1st Haedrig').toMap());
+    batch.insert(tableTiers, Tier(title: 'Chapter III', reward: '2nd Haedrig').toMap());
     batch.insert(tableTiers, Tier(title: 'Chapter IV', reward: '3rd Haedrig, Belphegor (pet), Portrait frame.').toMap());
     batch.insert(tableTiers, Tier(title: 'Slayer', reward: 'Portrait frame').toMap());
     batch.insert(tableTiers, Tier(title: 'Champion', reward: 'Portrait frame').toMap());
     batch.insert(tableTiers, Tier(title: 'Destroyer', reward: 'Portrait frame').toMap());
-    batch.insert(tableTiers, Tier(title: 'Conqueror', reward: 'Stash tab, Portrait frame').toMap());
+    batch.insert(tableTiers, Tier(title: 'Conqueror', reward: 'Portrait frame, Stash tab (only for players who have not yet earned a total of four stash tabs via the Season Journey)').toMap());
     batch.insert(tableTiers, Tier(title: 'Guardian', reward: 'Portrait frame').toMap());
 
     await batch.commit(noResult: true);

@@ -1,4 +1,4 @@
-package com.example.diabloseason6p;
+package com.jebstern.diabloseasonjourneytracker;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
